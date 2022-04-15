@@ -141,7 +141,7 @@ public class SaveManager implements IElementInfoFlattener, IManager, IStringPool
 	public SaveManager(Workspace workspace) {
 		this.workspace = workspace;
 		this.masterTable = new MasterTable();
-		this.snapshotJob = new DelayedSnapshotJob(this);
+		this.snapshotJob = new DelayedSnapshotJob(this, workspace);
 		snapshotRequested = false;
 		snapshotRequestor = null;
 		saveParticipants = Collections.synchronizedMap(new HashMap<>(10));

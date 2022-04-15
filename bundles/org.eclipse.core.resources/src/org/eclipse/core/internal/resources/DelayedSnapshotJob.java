@@ -16,7 +16,7 @@ package org.eclipse.core.internal.resources;
 import org.eclipse.core.internal.utils.Messages;
 import org.eclipse.core.internal.utils.Policy;
 import org.eclipse.core.resources.ISaveContext;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 
@@ -27,11 +27,13 @@ public class DelayedSnapshotJob extends Job {
 
 	private static final String MSG_SNAPSHOT = Messages.resources_snapshot;
 	private SaveManager saveManager;
+	private IWorkspace workspace;
 
-	public DelayedSnapshotJob(SaveManager manager) {
+	public DelayedSnapshotJob(SaveManager manager, IWorkspace workspace) {
 		super(MSG_SNAPSHOT);
 		this.saveManager = manager;
-		setRule(ResourcesPlugin.getWorkspace().getRoot());
+		this.workspace = workspace;
+		setRule(workspace.getRoot());
 		setSystem(true);
 	}
 
@@ -42,15 +44,12 @@ public class DelayedSnapshotJob extends Job {
 	public IStatus run(IProgressMonitor monitor) {
 		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
-
-		try {
-			ResourcesPlugin.getWorkspace();
-		} catch (IllegalStateException e) {
-			// workspace is null, log it as warning only and return OK_STATUS
-			Policy.log(IStatus.WARNING, null, e);
-			return Status.OK_STATUS;
+		if (workspace instanceof Workspace) {
+			if (!((Workspace) workspace).isOpen()) {
+				// workspace is closed simply return
+				return Status.OK_STATUS;
+			}
 		}
-
 		try {
 			return saveManager.save(ISaveContext.SNAPSHOT, null, Policy.monitorFor(null));
 		} catch (CoreException e) {
