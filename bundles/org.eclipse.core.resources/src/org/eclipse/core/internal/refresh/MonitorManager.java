@@ -60,7 +60,7 @@ class MonitorManager implements ILifecycleListener, IPathVariableChangeListener,
 		this.workspace = workspace;
 		this.refreshManager = refreshManager;
 		registeredMonitors = Collections.synchronizedMap(new HashMap<>(10));
-		pollMonitor = new PollingMonitor(refreshManager);
+		pollMonitor = new PollingMonitor(refreshManager, workspace);
 	}
 
 	/**
@@ -288,7 +288,7 @@ class MonitorManager implements ILifecycleListener, IPathVariableChangeListener,
 		//changes that occurred while the native monitor was turned off.
 		subMonitor.split(1);
 		if (refreshNeeded) {
-			new PollingMonitor(refreshManager).runOnce();
+			new PollingMonitor(refreshManager, workspace).runOnce();
 		}
 	}
 

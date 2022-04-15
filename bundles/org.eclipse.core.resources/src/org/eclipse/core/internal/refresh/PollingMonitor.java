@@ -74,13 +74,15 @@ public class PollingMonitor extends Job implements IRefreshMonitor {
 	 * True if this job has never been run. False otherwise.
 	 */
 	private boolean firstRun = true;
+	private IWorkspace workspace;
 
 	/**
 	 * Creates a new polling monitor.
 	 */
-	public PollingMonitor(RefreshManager manager) {
+	public PollingMonitor(RefreshManager manager, IWorkspace workspace) {
 		super(Messages.refresh_pollJob);
 		this.refreshManager = manager;
+		this.workspace = workspace;
 		setPriority(Job.DECORATE);
 		setSystem(true);
 		resourceRoots = new ArrayList<>();
@@ -170,7 +172,7 @@ public class PollingMonitor extends Job implements IRefreshMonitor {
 			//add all roots to the refresh list, but not to the real set of roots
 			//this will cause the job to never run again once it has exhausted
 			//the set of roots to refresh
-			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
+			IProject[] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
 			toRefresh.addAll(Arrays.asList(projects));
 		}
 		schedule(MIN_FREQUENCY);
