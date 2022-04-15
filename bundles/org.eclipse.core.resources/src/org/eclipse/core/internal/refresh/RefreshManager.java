@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2015 IBM Corporation and others.
+ * Copyright (c) 2004, 2022 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     IBM - Initial API and implementation
+ *     Christoph Läubrich - Issue #52 - Make ResourcesPlugin more dynamic and better handling early start-up
  *******************************************************************************/
 package org.eclipse.core.internal.refresh;
 
@@ -77,7 +78,8 @@ public class RefreshManager implements IRefreshResult, IManager, Preferences.IPr
 			Preferences preferences = ResourcesPlugin.getPlugin().getPluginPreferences();
 			final boolean autoRefresh = preferences.getBoolean(ResourcesPlugin.PREF_AUTO_REFRESH);
 			String jobName = autoRefresh ? Messages.refresh_installMonitorsOnWorkspace : Messages.refresh_uninstallMonitorsOnWorkspace;
-			MonitorJob.createSystem(jobName, ResourcesPlugin.getWorkspace().getRoot(), (ICoreRunnable) monitor -> manageAutoRefresh(autoRefresh, monitor)).schedule();
+			MonitorJob.createSystem(jobName, workspace.getRoot(),
+					(ICoreRunnable) monitor -> manageAutoRefresh(autoRefresh, monitor)).schedule();
 		}
 	}
 
