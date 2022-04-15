@@ -79,7 +79,7 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 		final boolean isFileLocation = EFS.SCHEME_FILE.equals(inputLocation.getScheme());
 		final IWorkspaceRoot root = getWorkspace().getRoot();
 		final ArrayList<IPath> results = new ArrayList<>();
-		if (URIUtil.equals(location, locationURIFor(root, true))) {
+		if (URIUtil.equals(location, locationURIFor(root, true, root))) {
 			//there can only be one resource at the workspace root's location
 			results.add(Path.ROOT);
 			return results;
@@ -88,7 +88,7 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 			if (!project.exists())
 				continue;
 			//check the project location
-			URI testLocation = locationURIFor(project, true);
+			URI testLocation = locationURIFor(project, true, root);
 			if (testLocation == null)
 				continue;
 			boolean usingAnotherScheme = !inputLocation.getScheme().equals(testLocation.getScheme());
@@ -798,7 +798,7 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 	 * @param target the resource to get the location URI for
 	 */
 	public URI locationURIFor(IResource target) {
-		return locationURIFor(target, false);
+		return locationURIFor(target, false, target.getWorkspace().getRoot());
 	}
 
 	/**
@@ -809,8 +809,8 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 	 * @param canonical if {@code true}, the prefix of the path of the returned URI
 	 *     corresponding to resource's file store root will be canonicalized
 	 */
-	public URI locationURIFor(IResource target, boolean canonical) {
-		return getStoreRoot(target).computeURI(target.getFullPath(), canonical);
+	public URI locationURIFor(IResource target, boolean canonical, IWorkspaceRoot workspaceRoot) {
+		return getStoreRoot(target).computeURI(target.getFullPath(), canonical, workspaceRoot);
 	}
 
 	public void move(IResource source, IFileStore destination, int flags, IProgressMonitor monitor) throws CoreException {

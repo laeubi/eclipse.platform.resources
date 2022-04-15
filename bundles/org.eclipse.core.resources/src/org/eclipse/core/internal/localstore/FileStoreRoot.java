@@ -69,8 +69,7 @@ public class FileStoreRoot {
 		this.localRoot = toLocalPath(root);
 	}
 
-	private IPathVariableManager getManager(IPath workspacePath) {
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+	private IPathVariableManager getManager(IPath workspacePath, IWorkspaceRoot workspaceRoot) {
 		IResource resource = workspaceRoot.findMember(workspacePath);
 		if (resource != null)
 			return resource.getPathVariableManager();
@@ -89,8 +88,8 @@ public class FileStoreRoot {
 	 * corresponding to the given workspace path, or null if none could
 	 * be computed. No canonicalization is applied to the returned URI.
 	 */
-	public URI computeURI(IPath workspacePath) {
-		return computeURI(workspacePath, false);
+	public URI computeURI(IPath workspacePath, IWorkspaceRoot workspaceRoot) {
+		return computeURI(workspacePath, false, workspaceRoot);
 	}
 
 	/**
@@ -102,10 +101,10 @@ public class FileStoreRoot {
 	 * @param canonical if {@code true}, the prefix of the path of the returned URI
 	 *     corresponding to this root will be canonicalized
 	 */
-	public URI computeURI(IPath workspacePath, boolean canonical) {
+	public URI computeURI(IPath workspacePath, boolean canonical, IWorkspaceRoot workspaceRoot) {
 		IPath childPath = workspacePath.removeFirstSegments(chop);
 		URI rootURI = canonical ? getCanonicalRoot() : root;
-		rootURI = getManager(workspacePath).resolveURI(rootURI);
+		rootURI = getManager(workspacePath, workspaceRoot).resolveURI(rootURI);
 		if (childPath.segmentCount() == 0)
 			return rootURI;
 		try {

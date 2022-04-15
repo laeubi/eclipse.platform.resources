@@ -1096,7 +1096,7 @@ public abstract class Resource extends PlatformObject implements IResource, ICor
 		IProject project = getProject();
 		if (project != null && !project.exists())
 			return null;
-		return getLocalManager().locationURIFor(this, false);
+		return getLocalManager().locationURIFor(this, false, getWorkspace().getRoot());
 	}
 
 	@Override
