@@ -481,7 +481,7 @@ public final class ResourcesPlugin extends Plugin {
 		if (!result.isOK())
 			getLog().log(result);
 		workspaceRegistration = context.registerService(IWorkspace.class, workspace, null);
-		checkMissingNaturesListener = new CheckMissingNaturesListener();
+		checkMissingNaturesListener = new CheckMissingNaturesListener(workspace);
 		workspace.addResourceChangeListener(checkMissingNaturesListener, IResourceChangeEvent.POST_CHANGE);
 		InstanceScope.INSTANCE.getNode(PI_RESOURCES).addPreferenceChangeListener(checkMissingNaturesListener);
 	}
