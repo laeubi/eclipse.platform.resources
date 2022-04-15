@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2015 IBM Corporation and others.
+ * Copyright (c) 2004, 2022 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -13,6 +13,7 @@
  *     James Blackburn (Broadcom Corp.) - ongoing development
  *     Tom Hochstein (Freescale) - Bug 409996 - 'Restore Defaults' does not work properly on Project Properties > Resource tab
  *     Lars Vogel <Lars.Vogel@vogella.com> - Bug 473427
+ *     Christoph Läubrich - Issue #52 - Make ResourcesPlugin more dynamic and better handling early start-up
  *******************************************************************************/
 package org.eclipse.core.internal.resources;
 
@@ -507,6 +508,6 @@ public class CharsetManager implements IManager {
 		workspace.addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 		charsetListener = new CharsetDeltaJob(workspace);
 		charsetListener.startup();
-		ValidateProjectEncoding.scheduleWorkspaceValidation();
+		ValidateProjectEncoding.scheduleWorkspaceValidation(workspace.getRoot());
 	}
 }

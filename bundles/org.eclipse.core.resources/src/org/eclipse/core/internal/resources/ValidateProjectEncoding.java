@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     Simeon Andreev - initial API and implementation
+ *     Christoph Läubrich - Issue #52 - Make ResourcesPlugin more dynamic and better handling early start-up
  *******************************************************************************/
 package org.eclipse.core.internal.resources;
 
@@ -29,11 +30,10 @@ public class ValidateProjectEncoding extends WorkspaceJob {
 	public static final String MARKER_TYPE = ResourcesPlugin.getPlugin().getBundle().getSymbolicName() + "." //$NON-NLS-1$
 			+ MARKER_ID;
 
-	public static void scheduleWorkspaceValidation() {
-		IWorkspaceRoot workspaceRoot = getWorkspaceRoot();
+	public static void scheduleWorkspaceValidation(IWorkspaceRoot workspaceRoot) {
 		IProject[] projects = workspaceRoot.getProjects();
 		ValidateProjectEncoding validateProjectEncoding = new ValidateProjectEncoding(projects);
-		validateProjectEncoding.setRule(getWorkspaceRoot());
+		validateProjectEncoding.setRule(workspaceRoot);
 		validateProjectEncoding.schedule();
 	}
 
@@ -171,7 +171,4 @@ public class ValidateProjectEncoding extends WorkspaceJob {
 		}
 	}
 
-	private static IWorkspaceRoot getWorkspaceRoot() {
-		return ResourcesPlugin.getWorkspace().getRoot();
-	}
 }
