@@ -417,13 +417,13 @@ public final class ResourcesPlugin extends Plugin {
 	 * Returns the workspace. The workspace is not accessible after the resources
 	 * plug-in has shutdown.
 	 *
-	 * @deprecated Accessing the Workspace in a static way is prone to start-up
-	 *             order problem, please consider using any of your favorite
-	 *             techniques (Declarative Services, ServiceTracker, Blueprint, ...)
+	 * <b>Hint:</b> Accessing the Workspace in a static way is prone to start-up
+	 * order problem, please consider using any of your favorite techniques
+	 * (Declarative Services, ServiceTracker, Blueprint, ...) instead.
+	 *
 	 * @return the workspace that was created by the single instance of this plug-in
 	 *         class.
 	 */
-	@Deprecated()
 	public static IWorkspace getWorkspace() {
 		if (workspace == null)
 			throw new IllegalStateException(Messages.resources_workspaceClosedStatic);
