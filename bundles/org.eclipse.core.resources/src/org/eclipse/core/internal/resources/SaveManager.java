@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2016 IBM Corporation and others.
+ * Copyright (c) 2000, 2022 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -17,6 +17,7 @@
  *     Sergey Prigogin (Google) - [437005] Out-of-date .snap file prevents Eclipse from running
  *     Lars Vogel <Lars.Vogel@vogella.com> - Bug 473427
  *     Mickael Istria (Red Hat Inc.) - Bug 488937
+ *     Christoph Läubrich - Issue #52 - Make ResourcesPlugin more dynamic and better handling early start-up
  *******************************************************************************/
 package org.eclipse.core.internal.resources;
 
@@ -471,7 +472,7 @@ public class SaveManager implements IElementInfoFlattener, IManager, IStringPool
 	 */
 	private void hookStartSave(int kind, Project project) {
 		if (ResourceStats.TRACE_SNAPSHOT && kind == ISaveContext.SNAPSHOT)
-			ResourceStats.startSnapshot();
+			ResourceStats.startSnapshot(project.getWorkspace());
 		if (Policy.DEBUG_SAVE) {
 			switch (kind) {
 				case ISaveContext.FULL_SAVE :

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2005 IBM Corporation and others.
+ * Copyright (c) 2000, 2022 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Christoph Läubrich - Issue #52 - Make ResourcesPlugin more dynamic and better handling early start-up
  *******************************************************************************/
 package org.eclipse.core.internal.events;
 
@@ -87,8 +88,8 @@ public class ResourceStats {
 		currentStats.startRun();
 	}
 
-	public static void startSnapshot() {
-		currentStats = PerformanceStats.getStats(EVENT_SNAPSHOT, ResourcesPlugin.getWorkspace());
+	public static void startSnapshot(IWorkspace workspace) {
+		currentStats = PerformanceStats.getStats(EVENT_SNAPSHOT, workspace);
 		currentStats.startRun();
 	}
 
