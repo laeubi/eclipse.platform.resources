@@ -17,6 +17,7 @@ import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.internal.resources.Container;
 import org.eclipse.core.internal.resources.Resource;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -25,8 +26,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * refreshed resource.
  */
 public class RefreshLocalAliasVisitor extends RefreshLocalVisitor {
-	public RefreshLocalAliasVisitor(IProgressMonitor monitor) {
-		super(monitor);
+	public RefreshLocalAliasVisitor(IProgressMonitor monitor, IWorkspace workspace) {
+		super(monitor, workspace);
 	}
 
 	@Override

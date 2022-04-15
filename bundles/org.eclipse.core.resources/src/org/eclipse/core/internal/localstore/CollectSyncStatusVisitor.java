@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.core.internal.resources.*;
 import org.eclipse.core.internal.utils.Messages;
-import org.eclipse.core.resources.IResourceStatus;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.osgi.util.NLS;
 
@@ -44,8 +43,8 @@ public class CollectSyncStatusVisitor extends RefreshLocalVisitor {
 	/**
 	 * Creates a new visitor, whose sync status will have the given title.
 	 */
-	public CollectSyncStatusVisitor(String multiStatusTitle, IProgressMonitor monitor) {
-		super(monitor);
+	public CollectSyncStatusVisitor(String multiStatusTitle, IProgressMonitor monitor, IWorkspace workspace) {
+		super(monitor, workspace);
 		status = new MultiStatus(ResourcesPlugin.PI_RESOURCES, IStatus.INFO, multiStatusTitle, null);
 	}
 

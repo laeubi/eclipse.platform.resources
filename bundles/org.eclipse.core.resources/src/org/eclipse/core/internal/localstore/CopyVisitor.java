@@ -135,7 +135,7 @@ public class CopyVisitor implements IUnifiedTreeVisitor {
 	 */
 	protected RefreshLocalVisitor getRefreshLocalVisitor() {
 		if (refreshLocalVisitor == null)
-			refreshLocalVisitor = new RefreshLocalVisitor(SubMonitor.convert(null));
+			refreshLocalVisitor = new RefreshLocalVisitor(SubMonitor.convert(null), rootDestination.getWorkspace());
 		return refreshLocalVisitor;
 	}
 

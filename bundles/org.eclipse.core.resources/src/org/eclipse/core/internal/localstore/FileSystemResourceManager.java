@@ -354,7 +354,8 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 		List<Resource> skipList = null;
 		UnifiedTree tree = new UnifiedTree(target);
 		if (!force) {
-			CollectSyncStatusVisitor refreshVisitor = new CollectSyncStatusVisitor(Messages.localstore_deleteProblem, subMonitor.split(refreshWork));
+			CollectSyncStatusVisitor refreshVisitor = new CollectSyncStatusVisitor(Messages.localstore_deleteProblem,
+					subMonitor.split(refreshWork), workspace);
 			refreshVisitor.setIgnoreLocalDeletions(true);
 			tree.accept(refreshVisitor, IResource.DEPTH_INFINITE);
 			status.merge(refreshVisitor.getSyncStatus());
@@ -731,7 +732,7 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 					return true;
 				break;
 		}
-		IsSynchronizedVisitor visitor = new IsSynchronizedVisitor(SubMonitor.convert(null));
+		IsSynchronizedVisitor visitor = new IsSynchronizedVisitor(SubMonitor.convert(null), workspace);
 		UnifiedTree tree = new UnifiedTree(target);
 		try {
 			tree.accept(visitor, depth);
@@ -974,7 +975,8 @@ public class FileSystemResourceManager implements ICoreConstants, IManager, Pref
 		}
 		UnifiedTree tree = fileTree == null ? new UnifiedTree(target) : new UnifiedTree(target, fileTree);
 		SubMonitor refreshMonitor = subMonitor.newChild(98);
-		RefreshLocalVisitor visitor = updateAliases ? new RefreshLocalAliasVisitor(refreshMonitor) : new RefreshLocalVisitor(refreshMonitor);
+		RefreshLocalVisitor visitor = updateAliases ? new RefreshLocalAliasVisitor(refreshMonitor, workspace)
+				: new RefreshLocalVisitor(refreshMonitor, workspace);
 		tree.accept(visitor, depth);
 		IStatus result = visitor.getErrorStatus();
 		if (!result.isOK())
