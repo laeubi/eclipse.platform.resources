@@ -423,7 +423,7 @@ public final class ResourcesPlugin extends Plugin {
 	 * @return the workspace that was created by the single instance of this plug-in
 	 *         class.
 	 */
-	@Deprecated(forRemoval = true)
+	@Deprecated()
 	public static IWorkspace getWorkspace() {
 		if (workspace == null)
 			throw new IllegalStateException(Messages.resources_workspaceClosedStatic);
