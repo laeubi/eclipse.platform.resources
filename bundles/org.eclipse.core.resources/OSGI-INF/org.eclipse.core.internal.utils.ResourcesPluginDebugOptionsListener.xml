@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.eclipse.core.internal.utils.ResourcesPluginDebugOptionsListener">
+   <property name="listener.symbolic.name" value="org.eclipse.core.resources"/>
+   <service>
+      <provide interface="org.eclipse.osgi.service.debug.DebugOptionsListener"/>
+   </service>
+   <reference cardinality="1..1" field="workspace" interface="org.eclipse.core.resources.IWorkspace" name="workspace"/>
+   <implementation class="org.eclipse.core.internal.utils.ResourcesPluginDebugOptionsListener"/>
+</scr:component>
